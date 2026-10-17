@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Portfolio</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <!-- ─── Loading Overlay ──────────────────────────── -->
+  <div id="admin-loader" class="admin-loader">
+    <div class="admin-loader-inner">
+      <div class="admin-loader-ring"></div>
+      <span>Loading Dashboard...</span>
+    </div>
+  </div>
+
+  <!-- ─── Sidebar ──────────────────────────────────── -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <span class="logo-icon">⚡</span>
+        <div>
+          <div class="logo-text">Portfolio</div>
+          <div class="logo-sub">Admin Panel</div>
+        </div>
+      </div>
+      <button class="sidebar-toggle" id="sidebar-toggle-btn" aria-label="Toggle sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav" role="navigation" aria-label="Admin navigation">
+      <div class="nav-section-label">Main</div>
+      <button class="nav-item active" data-page="dashboard" id="nav-dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-page="messages" id="nav-messages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>Messages</span>
+        <span class="nav-badge" id="nav-msg-badge" style="display:none;">0</span>
+      </button>
+      <div class="nav-section-label">Content</div>
+      <button class="nav-item" data-page="projects" id="nav-projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+        <span>Projects</span>
+      </button>
+      <button class="nav-item" data-page="settings" id="nav-settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user" id="sidebar-user">
+        <div class="user-avatar" id="sidebar-avatar">A</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-name">Admin</div>
+          <div class="user-email" id="sidebar-email">admin@email.com</div>
+        </div>
+      </div>
+      <button class="logout-btn" id="logout-btn" aria-label="Logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ─── Main Content ─────────────────────────────── -->
+  <main id="main-content" class="main-content">
+    <!-- Top Bar -->
+    <header class="topbar" id="topbar">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h2 class="topbar-title" id="topbar-title">Dashboard</h2>
+      <div class="topbar-right">
+        <a href="/" class="topbar-link" target="_blank" id="view-site-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>View Site</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Page: Dashboard -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card stat-card--purple">
+          <div class="stat-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="stat-card-data">
+            <span class="stat-card-num" id="stat-total-messages">—</span>
+            <span class="stat-card-label">Total Messages</span>
+          </div>
+        </div>
+        <div class="stat-card stat-card--cyan">
+          <div class="stat-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="stat-card-data">
+            <span class="stat-card-num" id="stat-unread-messages">—</span>
+            <span class="stat-card-label">Unread Messages</span>
+          </div>
+        </div>
+        <div class="stat-card stat-card--blue">
+          <div class="stat-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </div>
+          <div class="stat-card-data">
+            <span class="stat-card-num" id="stat-total-projects">—</span>
+            <span class="stat-card-label">Projects</span>
+          </div>
+        </div>
+        <div class="stat-card stat-card--green">
+          <div class="stat-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="stat-card-data">
+            <span class="stat-card-num" id="stat-page-views">0</span>
+            <span class="stat-card-label">Page Views</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3>Recent Messages</h3>
+            <button class="dash-view-all" data-goto="messages" id="dash-view-all-msgs">View All →</button>
+          </div>
+          <div class="dash-card-body" id="recent-messages-list">
+            <div class="empty-state">
+              <span class="empty-icon">📭</span>
+              <p>No messages yet</p>
+            </div>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3>Quick Actions</h3>
+          </div>
+          <div class="dash-card-body">
+            <div class="quick-actions">
+              <button class="quick-action-btn" data-goto="projects" id="quick-add-project">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Project
+              </button>
+              <button class="quick-action-btn" data-goto="messages" id="quick-view-messages">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                View Messages
+              </button>
+              <button class="quick-action-btn" data-goto="settings" id="quick-edit-settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit Profile
+              </button>
+              <a href="/" target="_blank" class="quick-action-btn" id="quick-view-site">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                View Live Site
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Messages -->
+    <div class="page" id="page-messages">
+      <div class="page-header">
+        <h3>Contact Messages</h3>
+        <span class="page-header-count" id="messages-count"></span>
+      </div>
+      <div class="messages-list" id="messages-list">
+        <div class="empty-state">
+          <span class="empty-icon">📭</span>
+          <p>No messages yet</p>
+          <span class="empty-sub">Messages from your contact form will appear here.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Projects -->
+    <div class="page" id="page-projects">
+      <div class="page-header">
+        <h3>Manage Projects</h3>
+        <button class="btn-primary" id="add-project-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Project
+        </button>
+      </div>
+      <div class="projects-admin-list" id="projects-admin-list">
+        <div class="empty-state">
+          <span class="empty-icon">📁</span>
+          <p>No projects yet</p>
+          <span class="empty-sub">Add your first project to showcase on your portfolio.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Settings -->
+    <div class="page" id="page-settings">
+      <div class="page-header">
+        <h3>Site Settings</h3>
+      </div>
+      <form class="settings-form" id="settings-form" novalidate>
+        <div class="settings-section">
+          <h4 class="settings-section-title">Personal Information</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="setting-name">Display Name</label>
+              <input type="text" id="setting-name" name="ownerName" placeholder="Your Name" />
+            </div>
+            <div class="form-group">
+              <label for="setting-role">Role / Title</label>
+              <input type="text" id="setting-role" name="role" placeholder="Software Engineer" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="setting-bio">Bio</label>
+            <textarea id="setting-bio" name="bio" rows="3" placeholder="A short bio about yourself..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="setting-hero-subtitle">Hero Subtitle</label>
+            <textarea id="setting-hero-subtitle" name="heroSubtitle" rows="2" placeholder="Subtitle shown on the hero section"></textarea>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4 class="settings-section-title">Contact & Location</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="setting-email">Contact Email</label>
+              <input type="email" id="setting-email" name="email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="setting-location">Location</label>
+              <input type="text" id="setting-location" name="location" placeholder="City, Country" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="setting-availability">Availability Status</label>
+            <input type="text" id="setting-availability" name="availability" placeholder="Open to opportunities" />
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4 class="settings-section-title">Social Links</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="setting-github">GitHub URL</label>
+              <input type="url" id="setting-github" name="githubUrl" placeholder="https://github.com/username" />
+            </div>
+            <div class="form-group">
+              <label for="setting-linkedin">LinkedIn URL</label>
+              <input type="url" id="setting-linkedin" name="linkedinUrl" placeholder="https://linkedin.com/in/username" />
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button type="submit" class="btn-primary" id="save-settings-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Changes
+          </button>
+          <div class="settings-status" id="settings-status"></div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- ─── Project Modal ────────────────────────────── -->
+  <div class="modal-overlay" id="project-modal-overlay">
+    <div class="modal" id="project-modal">
+      <div class="modal-header">
+        <h3 id="project-modal-title">Add Project</h3>
+        <button class="modal-close" id="project-modal-close" aria-label="Close modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="project-form" novalidate>
+        <input type="hidden" id="project-edit-id" value="" />
+        <div class="form-group">
+          <label for="proj-title">Title *</label>
+          <input type="text" id="proj-title" name="title" placeholder="Project Title" required />
+        </div>
+        <div class="form-group">
+          <label for="proj-description">Description *</label>
+          <textarea id="proj-description" name="description" rows="3" placeholder="Describe your project..." required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="proj-category">Category</label>
+            <select id="proj-category" name="category">
+              <option value="fullstack">Full Stack</option>
+              <option value="backend">Backend</option>
+              <option value="frontend">Frontend</option>
+              <option value="mobile">Mobile</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="proj-featured">Featured</label>
+            <select id="proj-featured" name="featured">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="proj-tech">Tech Stack (comma-separated)</label>
+          <input type="text" id="proj-tech" name="techStack" placeholder="Node.js, React, MongoDB" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="proj-github">GitHub URL</label>
+            <input type="url" id="proj-github" name="githubUrl" placeholder="https://github.com/..." />
+          </div>
+          <div class="form-group">
+            <label for="proj-live">Live URL</label>
+            <input type="url" id="proj-live" name="liveUrl" placeholder="https://..." />
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="project-modal-cancel">Cancel</button>
+          <button type="submit" class="btn-primary" id="project-modal-save">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── Message Detail Modal ─────────────────────── -->
+  <div class="modal-overlay" id="message-modal-overlay">
+    <div class="modal modal--message" id="message-modal">
+      <div class="modal-header">
+        <h3>Message Details</h3>
+        <button class="modal-close" id="message-modal-close" aria-label="Close modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="message-detail" id="message-detail">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Toast ────────────────────────────────────── -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

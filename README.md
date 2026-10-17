@@ -21,7 +21,7 @@ A high-performance, responsive **3D Personal Portfolio** built for **Arjav Upadh
 - 🧬 **3D DNA Code Helix**: Rotating torus-knot 3D scene in the About section.
 - 🗂️ **Dynamic Tabbed Tech Stack**: Glassmorphic filter tabs (Languages, Backend, Databases, Tools) with sliding indicator pill and proficiency bars.
 - 💎 **Interactive 3D Project Cards**: Filterable project gallery with 3D tilt effects, fetched from Express/MongoDB.
-- 📧 **Direct Inbox Email Delivery**: Contact form integrated with **Nodemailer** for direct email delivery to `avuy2207@gmail.com` with Reply-To header support.
+- 📧 **Direct Inbox Email Delivery**: Contact form integrated with **Nodemailer** for direct email delivery to `aryay0108@gmail.com` with Reply-To header support.
 - ✨ **GSAP ScrollTrigger**: Smooth reveal animations on scroll across all sections.
 - 📱 **Responsive Design**: Modern deep-space glassmorphism UI styled with CSS variables and custom responsive breakpoints.
 
@@ -89,7 +89,7 @@ MONGO_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/portfolio
 # Gmail Direct Email Delivery
 EMAIL_USER=avuy2207@gmail.com
 EMAIL_PASS=your_16_digit_gmail_app_password
-RECEIVER_EMAIL=avuy2207@gmail.com
+RECEIVER_EMAIL=aryay0108@gmail.com
 ```
 
 ### 4. Run the Development Server

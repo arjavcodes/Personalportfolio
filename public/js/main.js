@@ -159,10 +159,10 @@ function initTypewriter() {
   const roles = [
     'Software Engineer',
     'Full-Stack Developer',
-    'Java Developer',
-    'Node.js Expert',
-    'Backend Architect',
-    'MongoDB Specialist',
+    'Java & MySQL Developer',
+    'Node.js & Express Specialist',
+    'AI Integrations (Gemini API)',
+    'Computer Science Undergraduate',
   ];
 
   let roleIndex = 0, charIndex = 0, isDeleting = false;
@@ -339,14 +339,16 @@ function initContactForm() {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        status.textContent = data.message || "Message sent! I'll be in touch soon. 🚀";
+        status.innerHTML = `<span>🚀 <strong>Message delivered!</strong> Thanks for reaching out, ${escapeHtml(name)}. Your email was sent directly to Arjav's inbox (<em>aryay0108@gmail.com</em>).</span>`;
         status.className = 'success';
         form.reset();
       } else {
-        throw new Error(data.message || 'Something went wrong');
+        throw new Error(data.message || 'Something went wrong while dispatching email');
       }
     } catch (err) {
-      status.textContent = err.message || 'Failed to send message. Please try again.';
+      console.error('Contact form submission error:', err);
+      const mailtoUrl = `mailto:aryay0108@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Inquiry from ' + name)}&body=${encodeURIComponent('From: ' + name + ' (' + email + ')\n\n' + message)}`;
+      status.innerHTML = `<span>⚠️ ${escapeHtml(err.message)}.<br/><a href="${mailtoUrl}" style="color:var(--clr-secondary);font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;">Click here to email directly: aryay0108@gmail.com &rarr;</a></span>`;
       status.className = 'error';
     } finally {
       submitBtn.disabled = false;
@@ -410,29 +412,35 @@ function initDynamicSkills() {
 
   const tabs = Array.from(tabsContainer.querySelectorAll('.s-tab'));
 
-  // Skills Data Store
+  // Skills Data Store - Aligned with Arjav Upadhyay's Resume
   const SKILLS_DATA = {
     languages: [
-      { name: 'Java', level: 90, badge: 'Expert', icon: '☕', tags: ['Core Java', 'OOP', 'Collections', 'Multithreading'] },
-      { name: 'JavaScript', level: 88, badge: 'Advanced', icon: '⚡', tags: ['ES6+', 'Async/Await', 'DOM API', 'Node Runtime'] },
-      { name: 'HTML5 & CSS3', level: 80, badge: 'Advanced', icon: '🎨', tags: ['Semantic Layouts', 'Flexbox / Grid', 'Animations'] }
+      { name: 'Java', level: 92, badge: 'Proficient', icon: '☕', tags: ['Core Java', 'OOP', 'JDBC', 'PreparedStatements', 'JUnit'] },
+      { name: 'JavaScript', level: 90, badge: 'Proficient', icon: '⚡', tags: ['ES6+', 'Async / Await', 'DOM API', 'Node Runtime', 'REST Integration'] },
+      { name: 'HTML5 & CSS3', level: 88, badge: 'Advanced', icon: '🎨', tags: ['Semantic Layouts', 'Flexbox / Grid', 'Lighthouse 95+ Score', 'Responsive UI'] }
     ],
     backend: [
-      { name: 'Node.js', level: 85, badge: 'Advanced', icon: '🟢', tags: ['Event Loop', 'Async I/O', 'Express Integration'] },
-      { name: 'Express.js', level: 82, badge: 'Advanced', icon: '🚂', tags: ['Middleware', 'REST Routing', 'Error Handling'] },
-      { name: 'RESTful APIs', level: 85, badge: 'Advanced', icon: '🔗', tags: ['JSON Specs', 'JWT Auth', 'HTTP Verbs', 'CORS'] },
-      { name: 'Spring Boot', level: 70, badge: 'Intermediate', icon: '🍃', tags: ['Dependency Injection', 'Spring Data JPA', 'REST'] }
+      { name: 'Node.js', level: 88, badge: 'Advanced', icon: '🟢', tags: ['Event Loop', 'Async I/O', 'REST Routing', 'Express Integration'] },
+      { name: 'Express.js', level: 86, badge: 'Advanced', icon: '🚂', tags: ['12+ REST Endpoints', 'Middleware', 'Input Validation', 'Error Handling'] },
+      { name: 'REST APIs & Razorpay', level: 88, badge: 'Experienced', icon: '🔗', tags: ['Order Creation', 'Server-side Verification', 'Postman Testing', 'JSON Specs'] },
+      { name: 'Gemini API', level: 85, badge: 'Specialist', icon: '✨', tags: ['AI Chatbots', 'Prompt Engineering', 'Task & Medicine Reminders', 'Disclaimers'] }
     ],
     databases: [
-      { name: 'MongoDB', level: 85, badge: 'Advanced', icon: '🍃', tags: ['Document Schemas', 'Aggregation', 'Mongoose'] },
-      { name: 'MySQL', level: 80, badge: 'Advanced', icon: '🐬', tags: ['Relational Schema', 'Complex Joins', 'Indexing'] },
-      { name: 'Mongoose ODM', level: 80, badge: 'Advanced', icon: '📊', tags: ['Validation', 'Population', 'Hooks'] }
+      { name: 'MySQL', level: 88, badge: 'Advanced', icon: '🐬', tags: ['Relational Schemas', 'CRUD Operations', 'Complex Queries', 'PreparedStatements', 'Indexing'] },
+      { name: 'DBMS Fundamentals', level: 85, badge: 'Core', icon: '🗄️', tags: ['Normalization', 'ACID Properties', 'ER Modeling', 'Database Design'] },
+      { name: 'MongoDB', level: 80, badge: 'Intermediate', icon: '🍃', tags: ['Document Collections', 'Mongoose ODM', 'Aggregation Pipelines'] }
     ],
     tools: [
-      { name: 'Git & GitHub', level: 85, badge: 'Advanced', icon: '🐙', tags: ['Branching', 'PR Workflow', 'Conflict Resolution'] },
-      { name: 'VS Code', level: 85, badge: 'Advanced', icon: '💻', tags: ['Debugging', 'Extensions', 'Terminal Workflow'] },
-      { name: 'Postman', level: 80, badge: 'Advanced', icon: '🚀', tags: ['API Testing', 'Collections', 'Environments'] },
-      { name: 'Docker', level: 65, badge: 'Intermediate', icon: '🐳', tags: ['Containers', 'Dockerfiles', 'Port Mapping'] }
+      { name: 'Git & GitHub', level: 88, badge: 'Advanced', icon: '🐙', tags: ['Feature Branches', '12+ Pull Requests', 'Collaborative Workflows', 'CI/CD'] },
+      { name: 'Postman', level: 86, badge: 'Advanced', icon: '🚀', tags: ['API Testing', '25+ Request Suites', 'Regression & Bug Verification'] },
+      { name: 'JUnit', level: 82, badge: 'Proficient', icon: '🧪', tags: ['Unit Testing', 'DAO / Service Layers', 'Assertions', '8+ Test Suites'] },
+      { name: 'Netlify & DevTools', level: 86, badge: 'Advanced', icon: '⚡', tags: ['Serverless Functions', 'Chrome DevTools', 'Performance & Accessibility'] }
+    ],
+    cs: [
+      { name: 'Data Structures & Algorithms', level: 88, badge: '100+ Solved', icon: '🧩', tags: ['Arrays & Strings', 'Trees & Graphs', 'LeetCode 100+', '10+ Hackathons'] },
+      { name: 'Object-Oriented Programming', level: 90, badge: 'Core', icon: '🏛️', tags: ['Java OOP', 'Inheritance', 'Polymorphism', 'Encapsulation', 'Clean Architecture'] },
+      { name: 'Computer Networks', level: 82, badge: 'Core', icon: '🌐', tags: ['TCP / IP', 'HTTP / HTTPS', 'DNS', 'Socket Communication', 'REST Protocols'] },
+      { name: 'Operating Systems', level: 82, badge: 'Core', icon: '💻', tags: ['Processes & Threads', 'CPU Scheduling', 'Concurrency', 'Memory Management'] }
     ]
   };
 

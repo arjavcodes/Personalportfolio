@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | Portfolio</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════════
+       ADMIN LOGIN — Premium Dark Theme
+       ═══════════════════════════════════════════════════ */
+    :root {
+      --clr-bg: #04040f;
+      --clr-bg-2: #080818;
+      --clr-primary: #8b5cf6;
+      --clr-primary-glow: rgba(139, 92, 246, 0.4);
+      --clr-secondary: #06b6d4;
+      --clr-secondary-glow: rgba(6, 182, 212, 0.4);
+      --clr-accent: #3b82f6;
+      --clr-text: #e2e8f0;
+      --clr-text-muted: #94a3b8;
+      --clr-text-dim: #64748b;
+      --clr-border: rgba(255, 255, 255, 0.08);
+      --clr-card: rgba(255, 255, 255, 0.04);
+      --grad-primary: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      --grad-hero: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #06b6d4 100%);
+      --font-main: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-md: 1rem;
+      --radius-lg: 1.5rem;
+      --radius-xl: 2rem;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; height: 100%; }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ─── Animated Background ─────────────────────── */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(139,92,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
+
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.4;
+      animation: float 8s ease-in-out infinite;
+      z-index: 0;
+    }
+    .bg-orb-1 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, var(--clr-primary-glow), transparent 70%);
+      top: -100px; left: -100px;
+    }
+    .bg-orb-2 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, var(--clr-secondary-glow), transparent 70%);
+      bottom: -80px; right: -80px;
+      animation-delay: -4s;
+    }
+    .bg-orb-3 {
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(59,130,246,0.3), transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: -2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    /* ─── Login Container ─────────────────────────── */
+    .login-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 440px;
+      padding: 0 1.5rem;
+    }
+
+    .login-card {
+      background: rgba(8, 8, 24, 0.8);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      animation: cardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad-hero);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* ─── Logo ────────────────────────────────────── */
+    .login-logo {
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .login-logo-icon {
+      width: 64px; height: 64px;
+      margin: 0 auto 1rem;
+      background: var(--grad-primary);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      box-shadow: 0 8px 32px var(--clr-primary-glow);
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 8px 32px var(--clr-primary-glow); }
+      50% { box-shadow: 0 8px 48px var(--clr-primary-glow), 0 0 60px rgba(6,182,212,0.2); }
+    }
+
+    .login-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .login-title span {
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .login-subtitle {
+      color: var(--clr-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* ─── Divider ─────────────────────────────────── */
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      color: var(--clr-text-dim);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--clr-border);
+    }
+
+    /* ─── OAuth Buttons ───────────────────────────── */
+    .oauth-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+
+    .oauth-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.875rem;
+      width: 100%;
+      padding: 0.875rem 1.5rem;
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      background: var(--clr-card);
+      color: var(--clr-text);
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .oauth-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .oauth-btn:hover {
+      border-color: var(--clr-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .oauth-btn--google:hover {
+      border-color: #4285f4;
+      box-shadow: 0 8px 24px rgba(66, 133, 244, 0.2);
+    }
+
+    .oauth-btn--github:hover {
+      border-color: #c9d1d9;
+      box-shadow: 0 8px 24px rgba(201, 209, 217, 0.15);
+    }
+
+    .oauth-btn svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    /* ─── Error Alert ─────────────────────────────── */
+    .login-error {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-md);
+      color: #fca5a5;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+      animation: shakeIn 0.5s ease;
+    }
+
+    .login-error.visible { display: flex; }
+
+    @keyframes shakeIn {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(2px); }
+    }
+
+    .login-error-icon { font-size: 1.25rem; }
+
+    /* ─── Footer ──────────────────────────────────── */
+    .login-footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--clr-border);
+    }
+
+    .login-footer a {
+      color: var(--clr-text-muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .login-footer a:hover { color: var(--clr-primary); }
+
+    .login-footer a svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ─── Security Badge ──────────────────────────── */
+    .security-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--clr-text-dim);
+      font-size: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .security-badge svg {
+      width: 14px; height: 14px;
+      opacity: 0.6;
+    }
+
+    /* ─── Responsive ──────────────────────────────── */
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 2rem 1.5rem;
+        border-radius: var(--radius-lg);
+      }
+      .login-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Effects -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-3" aria-hidden="true"></div>
+
+  <div class="login-container">
+    <div class="login-card">
+      <!-- Logo -->
+      <div class="login-logo">
+        <div class="login-logo-icon" aria-hidden="true">🔐</div>
+        <h1 class="login-title">Admin <span>Panel</span></h1>
+        <p class="login-subtitle">Sign in with your authorized account to manage your portfolio.</p>
+      </div>
+
+      <!-- Error Alert -->
+      <div class="login-error" id="login-error" role="alert">
+        <span class="login-error-icon">⚠️</span>
+        <span id="login-error-text">Authentication failed. Please try again.</span>
+      </div>
+
+      <div class="login-divider">Sign in with</div>
+
+      <!-- OAuth Buttons -->
+      <div class="oauth-buttons">
+        <a href="/api/admin/auth/google" class="oauth-btn oauth-btn--google" id="google-login-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </a>
+
+        <a href="/api/admin/auth/github" class="oauth-btn oauth-btn--github" id="github-login-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+          </svg>
+          Continue with GitHub
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <div class="login-footer">
+        <a href="/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Back to Portfolio
+        </a>
+      </div>
+
+      <div class="security-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Secured with OAuth 2.0 — Only authorized accounts can access.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check for error query params
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    if (error) {
+      const errorEl = document.getElementById('login-error');
+      const textEl = document.getElementById('login-error-text');
+      errorEl.classList.add('visible');
+
+      const messages = {
+        google_failed: 'Google sign-in failed. Please try again.',
+        github_failed: 'GitHub sign-in failed. Please try again.',
+        not_authorized: 'Your account is not authorized for admin access. Only the portfolio owner can sign in.',
+      };
+      textEl.textContent = messages[error] || 'Authentication failed. Please try again.';
+    }
+  </script>
+</body>
+</html>

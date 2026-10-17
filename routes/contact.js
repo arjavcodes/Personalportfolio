@@ -5,14 +5,14 @@ const nodemailer = require('nodemailer');
 
 const isDbConnected = () => mongoose.connection.readyState === 1;
 
-// Helper to send real email to avuy2207@gmail.com
+// Helper to send real email to aryay0108@gmail.com
 async function sendDirectEmail({ name, email, subject, message }) {
-  const recipientEmail = process.env.RECEIVER_EMAIL || 'avuy2207@gmail.com';
+  const recipientEmail = process.env.RECEIVER_EMAIL || 'aryay0108@gmail.com';
   const emailUser = process.env.EMAIL_USER || 'avuy2207@gmail.com';
-  const emailPass = process.env.EMAIL_PASS;
+  const emailPass = process.env.EMAIL_PASS || 'nxobjqecapjusqcy';
 
-  if (!emailPass) {
-    console.log(`ℹ️ [Email System] Form submission logged: ${name} <${email}>. Set EMAIL_PASS in .env to enable direct Gmail delivery.`);
+  if (!emailPass || !emailUser) {
+    console.warn(`⚠️ [Email System] Missing EMAIL_PASS or EMAIL_USER. Cannot send email to ${recipientEmail}`);
     return false;
   }
 
@@ -25,17 +25,21 @@ async function sendDirectEmail({ name, email, subject, message }) {
   });
 
   const mailOptions = {
-    from: `"Portfolio Contact Form" <${emailUser}>`,
+    from: `"Portfolio Contact - ${name}" <${emailUser}>`,
     replyTo: `"${name}" <${email}>`,
     to: recipientEmail,
-    subject: `📩 New Portfolio Message: ${subject || 'Inquiry from ' + name}`,
+    subject: `📩 [Portfolio] ${subject || 'New Message from ' + name}`,
+    text: `You have received a new contact message from your portfolio website!\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject || 'Portfolio Inquiry'}\n\nMessage:\n${message}\n\n---\nDelivered to: ${recipientEmail}`,
     html: `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 24px; color: #f8fafc;">
-        <h2 style="color: #a78bfa; margin-top: 0; border-bottom: 1px solid #334155; padding-bottom: 12px;">New Contact Form Message</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 12px; margin-bottom: 16px;">
+          <h2 style="color: #a78bfa; margin: 0; font-size: 20px;">New Portfolio Contact Message</h2>
+          <span style="background: rgba(167, 139, 250, 0.15); color: #c084fc; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(167, 139, 250, 0.3);">PORTFOLIO</span>
+        </div>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
           <tr>
-            <td style="padding: 8px 0; color: #94a3b8; font-weight: 600; width: 100px;">From:</td>
-            <td style="padding: 8px 0; color: #f8fafc;"><strong>${name}</strong> (&lt;<a href="mailto:${email}" style="color: #38bdf8;">${email}</a>&gt;)</td>
+            <td style="padding: 8px 0; color: #94a3b8; font-weight: 600; width: 90px;">From:</td>
+            <td style="padding: 8px 0; color: #f8fafc;"><strong>${name}</strong> (&lt;<a href="mailto:${email}" style="color: #38bdf8; text-decoration: none;">${email}</a>&gt;)</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; color: #94a3b8; font-weight: 600;">Subject:</td>
@@ -46,18 +50,21 @@ async function sendDirectEmail({ name, email, subject, message }) {
             <td style="padding: 8px 0; color: #f8fafc;">${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</td>
           </tr>
         </table>
-        <div style="background: #1e293b; border-left: 4px solid #a78bfa; padding: 16px; border-radius: 6px; white-space: pre-wrap; font-size: 15px; line-height: 1.6; color: #e2e8f0;">
+        <div style="background: #1e293b; border-left: 4px solid #a78bfa; padding: 18px; border-radius: 6px; white-space: pre-wrap; font-size: 15px; line-height: 1.6; color: #e2e8f0;">
 ${message}
         </div>
-        <p style="font-size: 12px; color: #64748b; margin-top: 24px; text-align: center;">
-          You can reply directly to this email to respond to ${name}.
-        </p>
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #334155; text-align: center;">
+          <a href="mailto:${email}?subject=${encodeURIComponent('Re: ' + (subject || 'Portfolio Inquiry'))}" style="display: inline-block; background: #8b5cf6; color: #ffffff; text-decoration: none; padding: 10px 24px; border-radius: 6px; font-weight: 600; font-size: 14px;">Reply to ${name}</a>
+          <p style="font-size: 12px; color: #64748b; margin-top: 12px; margin-bottom: 0;">
+            This email was sent from your portfolio website contact form and delivered directly to <strong>${recipientEmail}</strong>.
+          </p>
+        </div>
       </div>
     `,
   };
 
-  await transporter.sendMail(mailOptions);
-  console.log(`✅ [Email System] Real email successfully sent to ${recipientEmail} from ${email}`);
+  const info = await transporter.sendMail(mailOptions);
+  console.log(`✅ [Email System] Real email successfully sent to ${recipientEmail} from ${email} (id: ${info.messageId})`);
   return true;
 }
 
@@ -86,16 +93,17 @@ router.post('/', async (req, res) => {
     }
 
     // 2. Dispatch real email via Nodemailer
-    await sendDirectEmail({ name, email, subject, message });
+    const sent = await sendDirectEmail({ name, email, subject, message });
 
-    console.log(`📧 New contact from ${name} <${email}>: ${message}`);
+    console.log(`📧 New contact from ${name} <${email}>: ${message.substring(0, 40)}... (Email sent: ${sent})`);
     res.status(201).json({
       success: true,
-      message: "Thanks for reaching out! I'll get back to you soon. 🚀",
+      message: "Thanks for reaching out! Your message was delivered directly to Arjav's inbox. 🚀",
+      emailSent: Boolean(sent)
     });
   } catch (err) {
     console.error('❌ Error processing contact form:', err);
-    res.status(500).json({ success: false, message: 'Failed to process message: ' + err.message });
+    res.status(500).json({ success: false, message: 'Failed to send message: ' + (err.message || 'Server error') });
   }
 });
 

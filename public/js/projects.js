@@ -170,12 +170,46 @@ const ProjectsModule = (() => {
   // ── Client-side fallback data (mirrors server fallback) ─
   function getFallbackProjects() {
     return [
-      { _id:'1', title:'E-Commerce REST API', description:'A scalable REST API built with Java Spring Boot featuring authentication, product management, and order processing with MySQL database.', techStack:['Java','Spring Boot','MySQL','REST API','JWT'], githubUrl:'https://github.com', liveUrl:'', category:'backend', featured:true },
-      { _id:'2', title:'MERN Stack Task Manager', description:'Full-stack task management application with real-time updates, drag-and-drop boards, user authentication, and MongoDB persistence.', techStack:['MongoDB','Express.js','React','Node.js','Socket.io'], githubUrl:'https://github.com', liveUrl:'https://demo.com', category:'fullstack', featured:true },
-      { _id:'3', title:'Analytics Dashboard', description:'Interactive data analytics dashboard with real-time charts, MySQL stored procedures, and a responsive HTML/CSS/JS frontend.', techStack:['HTML','CSS','JavaScript','MySQL','Node.js','Chart.js'], githubUrl:'https://github.com', liveUrl:'', category:'fullstack', featured:false },
-      { _id:'4', title:'Node.js CLI Automation Tool', description:'A command-line tool for automating repetitive development tasks including file scaffolding, code generation, and deployment scripts.', techStack:['Node.js','JavaScript','Commander.js','Inquirer'], githubUrl:'https://github.com', liveUrl:'', category:'backend', featured:false },
-      { _id:'5', title:'2D Browser Game Engine', description:'A lightweight 2D game engine built with vanilla JavaScript and HTML5 Canvas, featuring a physics system, sprite animations, and collision detection.', techStack:['JavaScript','HTML5 Canvas','CSS3','Web Audio API'], githubUrl:'https://github.com', liveUrl:'https://demo.com', category:'frontend', featured:true },
-      { _id:'6', title:'MongoDB Inventory System', description:'A warehouse inventory management system with MongoDB aggregation pipelines, batch operations, Express.js API and a clean HTML/JS frontend.', techStack:['MongoDB','Node.js','Express.js','HTML','CSS'], githubUrl:'https://github.com', liveUrl:'', category:'fullstack', featured:false },
+      {
+        _id: '1',
+        title: 'E-Commerce Platform with Razorpay',
+        description: 'A 40-product e-commerce web platform across 6 categories with live search, filters, cart and checkout. Built 12 REST API endpoints using Node.js and Express with MySQL, and integrated Razorpay server-side payment verification.',
+        techStack: ['Node.js', 'Express', 'MySQL', 'Razorpay', 'REST APIs', 'Postman'],
+        githubUrl: 'https://github.com/arjavcodes',
+        liveUrl: '',
+        category: 'fullstack',
+        featured: true
+      },
+      {
+        _id: '2',
+        title: 'AI Chatbot for Elderly Care',
+        description: 'An AI-powered companion and assistance chatbot featuring 3 reminder categories (daily tasks, medicines, birthdays) powered by Google Gemini API. Tested with seniors with accessibility optimizations and doctor guidance disclaimers.',
+        techStack: ['JavaScript', 'Gemini API', 'HTML5', 'CSS3', 'UI Design'],
+        githubUrl: 'https://github.com/arjavcodes',
+        liveUrl: '',
+        category: 'frontend',
+        featured: true
+      },
+      {
+        _id: '3',
+        title: 'Java & MySQL Expense Tracker',
+        description: 'Robust financial management application with 6 expense categories and monthly spending summaries tested on 50 sample records. Features PreparedStatement SQL injection defense, DAO/service architecture, and 8 JUnit unit tests.',
+        techStack: ['Java', 'JDBC', 'MySQL', 'JUnit', 'OOP'],
+        githubUrl: 'https://github.com/arjavcodes',
+        liveUrl: '',
+        category: 'backend',
+        featured: true
+      },
+      {
+        _id: '4',
+        title: 'Responsive Gym & Fitness Website',
+        description: 'A responsive fitness portal with 5 comprehensive sections (programs, plans, trainers, gallery, contact) across 3 breakpoints. Scored 95 in Performance and 92 in Accessibility on Google Lighthouse, deployed on Netlify.',
+        techStack: ['HTML5', 'CSS3', 'JavaScript', 'Netlify', 'Lighthouse'],
+        githubUrl: 'https://github.com/arjavcodes',
+        liveUrl: 'https://personalportfoliobyau.netlify.app',
+        category: 'frontend',
+        featured: false
+      }
     ];
   }
 

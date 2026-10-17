@@ -8,7 +8,16 @@
   status = 200
 
 [[redirects]]
+  from = "/admin/login"
+  to = "/admin-login.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/.netlify/functions/api/admin"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
